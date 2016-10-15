@@ -560,7 +560,7 @@ namespace WebSurge
             var t = new Thread(() =>
             {
                 statusOutputBufferDelay = 1; 
-                StressTester.RunSessions(Requests.Where( req=> req.IsActive).ToList(), true);
+                StressTester.RunSessions(Requests.Where( req=> req.IsActive).ToList(), 1);
                 statusOutputBufferDelay = 250;
 
                 Application.DoEvents();

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Threading;
+﻿using System.Threading;
 using Westwind.Utilities;
 using System;
 using System.Collections.Generic;
@@ -485,7 +484,9 @@ namespace WebSurge
             var lastProgress = DateTime.UtcNow.AddSeconds(-10);
             while (!CancelThreads)
             {
-                if (DateTime.UtcNow.Subtract(StartTime).TotalSeconds > seconds + 1)
+                var finishedAllSessions = threads.All(t => t.ThreadState == ThreadState.Stopped);
+
+                if (finishedAllSessions || DateTime.UtcNow.Subtract(StartTime).TotalSeconds > seconds + 1)
                 {
                     TimeTakenForLastRunMs = (int)DateTime.UtcNow.Subtract(StartTime).TotalMilliseconds;
 
@@ -559,7 +560,7 @@ namespace WebSurge
 
         public void RunSessions(object requests)
         {
-            RunSessions(requests, false);
+            RunSessions(requests, Options.Iterations);
         }
 
         /// <summary>
@@ -575,7 +576,7 @@ namespace WebSurge
         /// </summary>
         /// <param name="requests">HttpRequests to run</param>
         /// <param name="runOnce">When set only fires once</param>
-        public void RunSessions(object requests, bool runOnce = false)
+        public void RunSessions(object requests, int iterations)
         {
             List<HttpRequestData> reqs = null;
             bool isFirstRequest = true;
@@ -597,7 +598,7 @@ namespace WebSurge
             else
                 reqs = requests as List<HttpRequestData>;
 
-            while (!CancelThreads)
+            for (int i = 0; !CancelThreads && (iterations < 1 || i < iterations); i++)
             {
 
                 foreach (var req in reqs)
@@ -621,9 +622,6 @@ namespace WebSurge
                     else
                         Thread.Sleep(Options.DelayTimeMs);
                 }
-
-                if (runOnce)
-                    break;
             }
         }
 

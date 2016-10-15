@@ -162,6 +162,10 @@ Allows to add custom authentication to a request after you've captured say a bea
         [Browsable(false)]
         public int LastSecondsToRun { get; set; }
 
+        [Description("Maximum number of times to run each session (per thread). Set to 0 to specify no limit, i.e. repeat each session until test end.")]
+        [Category("Test Operation")]
+        public int Iterations { get; set; }
+
         
 
 
@@ -173,6 +177,7 @@ Allows to add custom authentication to a request after you've captured say a bea
 
             MaxResponseSize = 0;            
             WarmupSeconds = 2;
+            Iterations = 0;
 
             LastSecondsToRun = 10;
             LastThreads = 2;

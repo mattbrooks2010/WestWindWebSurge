@@ -70,6 +70,7 @@ namespace WebSurge.Cli
             stressTester.Options.DelayTimeMs = options.DelayTimeMs;
             stressTester.Options.RandomizeRequests = options.RandomizeRequests;
             stressTester.Options.WarmupSeconds = options.WarmupSeconds;
+            stressTester.Options.Iterations = options.Iterations;
 
             if (options.Silent != 0 && options.Silent != 1)
                 stressTester.RequestProcessed += stressTester_RequestProcessed;

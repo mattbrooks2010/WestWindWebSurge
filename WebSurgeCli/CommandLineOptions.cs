@@ -28,6 +28,9 @@ namespace WebSurge.Cli
         [Option('w', "warmup", HelpText="Number of seconds used for warmup")]
         public int WarmupSeconds { get; set; }
 
+        [Option('i', "iterations", HelpText = "Maximum number of times to run each session (per thread)", DefaultValue = 0)]
+        public int Iterations { get; set; }
+
         /// <summary>
         /// -1 not silent. 0 means silent, 1 means no detail 2 means no summary
         /// </summary>
@@ -65,6 +68,9 @@ Value Options:
                1-n  Milliseconds of delay between requests
                0   No delay, but give up cpu time slice
                -1   No delay, no time slice (very high cpu usage)
+-i          Maximum number of times to run each session (0)
+               1-n  Number of times to run each session (per thread)
+               0    No limit, repeat each session until test end
 -y          Display mode for progress (1)
                0 - No progress, 1 - no request detail, 
                2 - no progress summary, 3 - show all
